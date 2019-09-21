@@ -25,18 +25,13 @@ pipeline {
     stages {
         stage('build') {
             steps {
+               sh 'python --version'
                sh "pip install flask==0.10.1 python-consul"
                sh "python app.py & python admin.py"
             }
         }
                
-        stage('build') {
-            steps {
-                sh 'python --version'
-            }
-        }
-               
-         stage('Build docker image') {
+        stage('Build docker image') {
             steps {
                sh "docker build -t docker-pets ."
                }
