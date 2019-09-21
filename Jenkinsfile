@@ -1,15 +1,13 @@
 pipeline {
-
-    agent none
-    options {
-        skipStagesAfterUnstable()
-    }
+    
+    agent { docker { image 'python:3.7.2' } }
     
     stages {
         stage('Build') {
             steps {
                 echo "Building application started ...."
-                sh git clone --recursive https://github.com/Sagar2366/docker-pets.git'
+                sh 'pip install flask==0.10.1 python-consul'
+                sh 'python app.py & python admin.py'
                 echo 'Application build completed'
             }
         }
