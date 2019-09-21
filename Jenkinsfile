@@ -9,6 +9,17 @@
                sh "python app.py & python admin.py"
            }
            
+           stage('Sonarqube check') {
+               def scannerHome = tool 'SonarScanner1';
+               withSonarQubeEnv('sonar-server') {
+                           build job: 'sonar-scanner1'
+                }
+           }
+           
+           stage('Testing you application') {
+               sh "pytest"
+           }
+           
            stage('Build docker image') {
                sh "docker build -t docker-pets ."
            }
