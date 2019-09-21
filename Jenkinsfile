@@ -1,33 +1,26 @@
 pipeline {
-    agent { docker { image 'python:3.7.2' } }
-    stages {
-        stage('Build') {
-            steps {
-            
-                echo "Building application started ...."
-                sh "ls -al"
-                //sh 'pip install flask==0.10.1 python-consul'
-                //sh 'python app.py & python admin.py'
-                echo 'Application build completed'
-            }
-        }
-        stage('Test') {
-            steps {
-                echo 'Testing'
-            }
-        }
+  agent any
+    
+  tools {nodejs "node"}
+    
+  stages {
         
-       stage('Sanity check') {
-            steps {
-                input "Does the staging environment look ok?"
-            }
-        }
+    stage('Cloning Git') {
+      steps {
+        git 'https://github.com/gustavoapolinario/node-todo-frontend'
+      }
+    }
         
-        stage('Deploy') {
-            steps {
-                echo 'Deploying'
-            }
-        }
-   }
-
+    stage('Install dependencies') {
+      steps {
+        sh 'npm install'
+      }
+    }
+     
+    stage('Test') {
+      steps {
+         sh 'npm test'
+      }
+    }      
+  }
 }
