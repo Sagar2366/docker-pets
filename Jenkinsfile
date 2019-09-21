@@ -1,7 +1,7 @@
 pipeline {
 
     agent {
-        docker { image 'python:3-alpine' }
+        docker { image 'python:3' }
     }
     
     options {
