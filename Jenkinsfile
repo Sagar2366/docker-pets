@@ -1,6 +1,6 @@
 pipeline {
   agent any
-    
+    cleanWs()
   tools {nodejs "node"}
     
   stages {
