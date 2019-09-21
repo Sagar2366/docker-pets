@@ -7,15 +7,9 @@ pipeline {
     
     stages {
         stage('Build') {
-           agent {
-                docker {
-                    image 'python:2-alpine'
-                }
-            }
             steps {
                 echo "Building application started ...."
-                sh 'pip install flask==0.10.1 python-consul'
-                sh 'python app.py & python admin.py'
+                sh git clone --recursive https://github.com/Sagar2366/docker-pets.git'
                 echo 'Application build completed'
             }
         }
