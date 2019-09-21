@@ -1,0 +1,31 @@
+node {     
+
+           stage('Cloning git repository') {
+               checkout scm
+           }
+
+           stage('Build Application and installd dependencies') {
+               sh "pip install flask==0.10.1 python-consul"
+               sh "python app.py & python admin.py"
+           }
+
+           stage('Sonarqube check') {
+               def scannerHome = tool 'SonarScanner1';
+               withSonarQubeEnv('sonar-server') {
+                           build job: 'sonar-scanner1'
+                }
+           }
+           
+           stage('Run unit testing') {
+               sh "pytest"
+           }
+           
+           stage('Build docker image') {
+               sh "docker build -t docker-pets ."
+           }
+           
+           stage('Run docker container') {
+               sh "docker run -it -p 5000:5000 docker-pets"
+           }
+           
+        }
