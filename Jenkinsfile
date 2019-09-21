@@ -7,6 +7,11 @@ pipeline {
     
     stages {
         stage('Build') {
+           agent {
+                docker {
+                    image 'python:2-alpine'
+                }
+            }
             steps {
                 echo "Building application started ...."
                 sh 'pip install flask==0.10.1 python-consul'
